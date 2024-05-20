@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="shortcut icon" href="#">
+<link rel="stylesheet" href="{% static 'css/indexpage.css'%}">
+</head>
+<body>
+    <div class="form-container">
+        <!-- Login Form -->
+          <h2>Login</h2><hr><br>
+          <form id="login-form" method="post" action="{% url 'product_schemas' %}">
+            {% csrf_token %}
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="submit" id="login-button" value="Login" />
+          </form>
+          <br>
+          <a id="Guide">If you are new here, Sign Up first and then login</a>
+          <br>
+          <div class="form-footer">
+            <a href="{% url 'signuppage' %}">Sign Up</a> | 
+            <a href="{% url 'forgotpwpage' %}">Forgot Password</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script> 
+<script src="{% static 'js/indexpage.js' %}"></script>
+</body>
+</html>

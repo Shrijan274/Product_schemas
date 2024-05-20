@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forgot Password</title>
+<link rel="shortcut icon" href="#">
+<link rel="stylesheet" href="{% static 'css/indexpage.css'%}">
+</head>
+<body>
+    <div class="form-container",id="forgot-password-form">
+            <h2>Forgot Password</h2><hr><br>
+            <form method="post" if="forgotpw-form">
+                {% csrf_token %}
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <button type="submit" id="reset-button">Reset Password</button>
+            </form>
+            <div class="form-footer">
+                <a href="{% url 'loginpage' %}">Login</a>
+            </div> 
+    </div>
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script> 
+<script src="{% static 'js/indexpage.js' %}"></script>
+</body>
+</html>

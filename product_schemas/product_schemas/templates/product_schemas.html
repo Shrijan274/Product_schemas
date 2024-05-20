@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title >store schema</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+<link rel="stylesheet" href="{% static 'css/product_schema.css' %}">
+<style>
+    #productTable {
+        display: none;
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1 id="header1">ADD SCHEMAS</h1>
+</header>
+<br>
+<form id="productForm" >
+    <label for="productName">Schema Name :</label>
+    <input type="text" id="productName" name="productName">
+    <br><br>
+</form>
+
+<table id="productTable">
+    <thead>
+        <tr>
+            <br>
+            <th id="fieldname" style="width:10%">Field Name</th>
+            <th id="type" style="width:10%">Data Type</th>
+            <th id="lenght" style="width:10%">Length</th>
+            <th id="required" style="width:5%"> is Required</th>
+            <th id="enum" style="width:25%">Look Up</th>
+            <th id="css" style="width:20%">CSS</th>
+            <th id="note" style="width:20%">Note</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<br>
+
+<button onclick="previewButton()" id="previewButton">Preview</button>
+<button id="add-row-button">Add Row</button>
+<div id="previewForm" class="form-container"></div>
+<button id="configSaveButton" style="display: none;"> Config Save</button>
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script  src="{% static 'js/underscore.js' %}"></script>
+<script  src="{% static 'js/jsv.js' %}"></script>
+<script  src="{% static 'js/jsonform.js' %}"></script>
+<script src="{% static 'js/product_schema.js' %}"></script>
+</body>
+</html>
+
