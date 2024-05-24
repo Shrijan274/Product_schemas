@@ -35,7 +35,7 @@ function validatePasswords() {
   
 // using jQuery,AJAX to handle submission in signup
 $(document).on('submit','#signup-form',function(e){
-  
+  e.preventDefault()
 
   $.ajax({
     type:'POST',
@@ -56,6 +56,7 @@ $(document).on('submit','#signup-form',function(e){
 
 // using jQuery,AJAX to handle submission in logging
 $(document).on('submit','#login-form',function(e){
+  e.preventDefault()
 
     $.ajax({
       url: '/logging/', // Point to the logging view URL
@@ -69,30 +70,22 @@ $(document).on('submit','#login-form',function(e){
         alert(data);
         location.reload();
       },
-      error: function(xhr, status, error) {
-        console.log('Error:', error);
-      }
     });
-
 });
 
-
 // using jQuery,AJAX to handle submission in forgotpw
-$(document).on('submit','#forgot-pw',function(e){
-
+$(document).on('submit','#newpassword-form',function(e){
+  e.preventDefault()
     $.ajax({
-      url: '/forgotpw/', // Point to the forgotpw view URL
+      url: '/resetpassword/' + $('#email').val(),
       type: 'POST',
       data: {
-        email: $('#email').val(),
+        password: $('#password').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
       success: function(data) {
         alert(data);
         location.reload();
       },
-      error: function(xhr, status, error) {
-        console.log('Error:', error);
-      }
     });
 })

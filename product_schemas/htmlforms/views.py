@@ -1,10 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from htmlforms.models import member
+from htmlforms.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
 
+def schemapage(request):
+    return render(request,'product_schemas.html')
 
 def loginindex(request):                                 #login page
     template_name="indexlogin.html"
@@ -14,10 +15,15 @@ def signupindex(request):                                #signup page
     template_name="indexsignup.html"
     return render(request, template_name)
 
-def forgotpwindex(request):                              #forgot password page
-    template_name="indexforgotpw.html"
-    return render(request, template_name)
-
+def forgotpwindex(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if User.objects.filter(email=email).exists():
+            return redirect('newpassword', email=email)
+        else:
+            return HttpResponse('Account with the email does not exist.')
+    else:
+        return render(request, 'indexforgotpw.html')
 def resetpassword(request):
     template_name="newpassword.html"
     return render(request, template_name)
@@ -29,11 +35,11 @@ def signup(request):
         lastname=request.POST['lastname']
         password=request.POST['password']
         
-        user=member.objects.filter(email=email).exists()
+        user=User.objects.filter(email=email).exists()
         if user:
             return HttpResponse('Account already exists with this email.')
         else:
-            new_user=member(email=email, password=password, firstname=firstname, lastname=lastname)
+            new_user=User(email=email, password=password, firstname=firstname, lastname=lastname)
             new_user.save()
             success='User ' +email+ ' created successfully.'
             return HttpResponse(success)
@@ -46,24 +52,23 @@ def logging(request):
         password = request.POST.get('password')
 
         #checking if email exists or not
-        if not member.objects.filter(email=email).exists():
+        if not User.objects.filter(email=email).exists():
             return HttpResponse('Account doesnt exist')
         
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('product_schemas')
+            return redirect(request,'product_schemas.html')
         else:
-            return HttpResponse('Email and Password does not.')
+            return HttpResponse('Email and Password does not match.')
     else:
         return render(request,'indexlogin.html')
     
-def resetPassword(request):
+def newpassword(request, email):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        if member.objects.filter(email=email).exists():
-            return render(request, 'newpassword.html')
-        else:
-            return HttpResponse('Account with this email doesnt exists.')
+        password = request.POST.get('password')
+        User.objects.filter(email=email).update(password=password)
+        return HttpResponse('Password has been updated.')
     else:
-        return render(request, 'indexforgotpw.html')
+        return render(request, 'newpassword.html', {'email': email})
+    

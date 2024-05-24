@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-class member(models.Model):
+class User(models.Model):
     email = models.EmailField(max_length=64)
     firstname = models.CharField(max_length=32)
     lastname = models.CharField(max_length=32)
