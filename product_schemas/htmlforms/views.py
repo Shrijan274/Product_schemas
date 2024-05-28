@@ -1,11 +1,17 @@
-from django.http import HttpResponse
+import json
+
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from htmlforms.models import User
-from django.contrib.auth import authenticate, login
+from htmlforms.models import User,Product
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='/')
 def schemapage(request):
-    return render(request,'product_schemas.html')
+    template_name="product_schemas.html"
+    return render(request,template_name)
 
 def loginindex(request):                                 #login page
     template_name="indexlogin.html"
@@ -39,28 +45,26 @@ def signup(request):
         if user:
             return HttpResponse('Account already exists with this email.')
         else:
-            new_user=User(email=email, password=password, firstname=firstname, lastname=lastname)
+            new_user=User.objects.create_user(username=email,email=email, password=password, first_name=firstname, last_name=lastname)
             new_user.save()
             success='User ' +email+ ' created successfully.'
             return HttpResponse(success)
     return render(request,'indexsignup.html' )
 
-@login_required
 def logging(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        #checking if email exists or not
-        if not User.objects.filter(email=email).exists():
-            return HttpResponse('Account doesnt exist')
-        
-        user = authenticate(request, email=email, password=password)
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request,username=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect(request,'product_schemas.html')
+            return redirect('/product_schemas/')
+        if not User.objects.filter(email=email).exists():
+            message='Account does not exist.'
+            return HttpResponse(message)
         else:
-            return HttpResponse('Email and Password does not match.')
+            message1='Invalid login credentials.'
+            return HttpResponse(message1)
     else:
         return render(request,'indexlogin.html')
     
@@ -72,3 +76,19 @@ def newpassword(request, email):
     else:
         return render(request, 'newpassword.html', {'email': email})
     
+def log_out(request):
+    logout(request)
+    return render(request,'indexlogin.html')
+
+def configsave(request):
+    if request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        print(body)
+        productname=body.get('productname')
+        schema=body.get('schema')
+        isactive=body.get('isactive')
+
+        product=Product(productName=productname, schema=schema, is_active=isactive)
+        product.save()
+        return JsonResponse({'message': 'Product saved successfully.'})

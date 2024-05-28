@@ -1,6 +1,6 @@
-from django.urls import path
-
+from django.urls import path, reverse
 from htmlforms import views
+
 
 urlpatterns = [
     path("", views.loginindex, name="loginpage"),                       #default login page
@@ -8,9 +8,11 @@ urlpatterns = [
     path("forgotpwindex/", views.forgotpwindex, name="forgotpwpage"),   #forgot password page
     path("signup/", views.signup, name="signup"),                       #signing up a new user
     path("resetpassword/", views.resetpassword, name="resetPassword"), 
-    path("home/",views.logging,name="product_schemas"),
+    path('logging/', views.logging, name='logging'),
+    path('product_schemas/', views.schemapage, name='product_schemas'),
     path('resetpassword/<str:email>/',views.newpassword, name='newpassword'),
-    path('schemapage/',views.schemapage,name='schemapage'),
+    path('logout/', views.log_out, name='logout'),
+    path('configsave/',views.configsave,name='configsave'),
 ]
 
 

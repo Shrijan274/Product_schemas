@@ -59,8 +59,8 @@ $(document).on('submit','#login-form',function(e){
   e.preventDefault()
 
     $.ajax({
+      type: 'GET',
       url: '/logging/', // Point to the logging view URL
-      type: 'POST',
       data: {
         email: $('#email').val(),
         password: $('#password').val(),
@@ -89,3 +89,4 @@ $(document).on('submit','#newpassword-form',function(e){
       },
     });
 })
+

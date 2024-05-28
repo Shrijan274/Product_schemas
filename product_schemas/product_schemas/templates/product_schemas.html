@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title >product schema</title>
+<link rel="shortcut icon" href="#">
 <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
 <link rel="stylesheet" href="{% static 'css/product_schema.css' %}">
 <style>
@@ -17,15 +18,14 @@
 </head>
 <body>
 <header>
+    <a id="logout-button" class="logout-button" href="{% url 'logout' %}">Log out</a>
     <h1 id="header1">ADD SCHEMAS</h1>
 </header>
-<br>
-<form id="productForm" >
+<form id="productForm" method="post" onsubmit="return false;">
+    {% csrf_token %}
     <label for="productName">Schema Name :</label>
     <input type="text" id="productName" name="productName">
     <br><br>
-</form>
-
 <table id="productTable">
     <thead>
         <tr>
@@ -44,12 +44,12 @@
 </table>
 <br>
 
-<button onclick="previewButton()" id="previewButton">Preview</button>
-<button id="add-row-button">Add Row</button>
+<button type="button" onclick="preview_button()" id="PreviewButton">Preview</button>
+<button type="button" id="add-row-button">Add Row</button>
 <div id="previewForm" class="form-container"></div>
-<button id="configSaveButton" style="display: none;"> Config Save</button>
+<button type="submit" id="ConfigSaveButton" style="display: none;"> Config Save</button>
 
-
+</form>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script  src="{% static 'js/underscore.js' %}"></script>
 <script  src="{% static 'js/jsv.js' %}"></script>
