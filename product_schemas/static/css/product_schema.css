@@ -48,18 +48,19 @@
 }
 
 #add-row-button, #PreviewButton {
-    display: none;
+    display: block;
 }
   
 #productTable:visible ~ #add-row-button, #productTable:visible ~ #PreviewButton {
     display: block;
 }
+
 #previewForm {
     width: 30%;
     margin: 0 auto;
     border: 1px solid black;
-    padding: 20px;
     display: none;
+    padding: 20px;
     background-color:  #f2f2f2;
     margin-bottom: 5em;
 }

@@ -1,7 +1,6 @@
 from django.urls import path, reverse
 from htmlforms import views
 
-
 urlpatterns = [
     path("", views.loginindex, name="loginpage"),                       #default login page
     path("signupindex/", views.signupindex, name="signuppage"),         #sign up page to register
@@ -13,6 +12,8 @@ urlpatterns = [
     path('resetpassword/<str:email>/',views.newpassword, name='newpassword'),
     path('logout/', views.log_out, name='logout'),
     path('configsave/',views.configsave,name='configsave'),
+    path('retrievedata/',views.retrievedata, name='retrievedata'),
+    path('CRUDview/',views.CRUDview,name='CRUDview')
 ]
 
 

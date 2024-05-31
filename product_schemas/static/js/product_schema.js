@@ -170,7 +170,6 @@ $.ajaxSetup({
   } 
 });
 
-  
 $(document).ready(function() {
 
   $('#add-row-button, #PreviewButton').hide();

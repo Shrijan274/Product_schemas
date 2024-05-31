@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<style>
+td.editor-edit button,
+td.editor-delete button {
+    background: transparent;
+    border: none;
+    color: inherit;
+}
+</style>
+</head>
+<body>
+<h1>Product Schema Table</h1>
+<table id="TableProduct" class="display"  width="70%">
+    <thead>
+        <tr>
+            <th id="SrNo" style="width:10%">Sr No</th>
+            <th id="ProductName" style="width:40%">Product Name</th>
+            <th id="IsActive" style="width:15%">Is Active</th>               
+            <th id="Action" style="width:15%">Action</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th id="SrNo" style="width:10%">Sr No</th>
+            <th id="ProductName" style="width:40%">Product Name</th>
+            <th id="IsActive" style="width:15%">Is Active</th>
+            <th id="Action" style="width:15%">Action</th>
+        </tr>
+    </tfoot>
+</table>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script>
+$('#TableProduct').DataTable({
+    columns: [
+        {data: 'SrNo'},
+        {data: 'ProductName'},
+        {data: 'IsActive'},
+        {data: null, className: 'dt-center editor-edit',
+            defaultContent: '<><i class="fa fa-pencil"/></>',
+            orderable: false
+        
+        }, 
+        {data: null, className: 'dt-center editor-delete',
+            defaultContent: '<><i class="fa fa-trash"/></>',
+            orderable: false
+        }
+    ],
+});
+
+//
+</script>
+</body>
+</html>

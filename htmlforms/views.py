@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 
+
 @login_required(login_url='/')
 def schemapage(request):
     template_name="product_schemas.html"
@@ -60,11 +61,9 @@ def logging(request):
             login(request, user)
             return redirect('/product_schemas/')
         if not User.objects.filter(email=email).exists():
-            message='Account does not exist.'
-            return HttpResponse(message)
+            return JsonResponse({'message': 'Account does not exist.'})
         else:
-            message1='Invalid login credentials.'
-            return HttpResponse(message1)
+            return JsonResponse({'message': 'Invalid login credentials.'})
     else:
         return render(request,'indexlogin.html')
     
@@ -92,3 +91,10 @@ def configsave(request):
         product=Product(productName=productname, schema=schema, is_active=isactive)
         product.save()
         return JsonResponse({'message': 'Product saved successfully.'})
+
+def retrievedata(request):
+    data=list(Product.objects.values('productName','is_active'))
+    return JsonResponse(data, safe=False)
+
+def CRUDview(request):
+    return render(request,'CRUD.html')
