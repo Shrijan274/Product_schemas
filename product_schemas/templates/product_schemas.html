@@ -19,7 +19,10 @@
 <body>
 <header>
     <a id="logout-button" class="logout-button" href="{% url 'logout' %}">Log out</a>
+    
+
     <h1 id="header1">ADD SCHEMAS</h1>
+    <a id="view-entries" href="{% url 'CRUDview' %}" target="_blank">View Entries</a>
 </header>
 <form id="productForm" method="post" onsubmit="return false;">
     {% csrf_token %}
@@ -44,7 +47,7 @@
 </table>
 <br>
 
-<button type="button" onclick="preview_button()" id="PreviewButton">Preview</button>
+<button type="button" onclick="previewform()" id="PreviewButton">Preview</button>
 <button type="button" id="add-row-button">Add Row</button>
 <div id="previewForm" class="form-container"></div>
 <button type="submit" id="ConfigSaveButton" style="display: none;"> Config Save</button>

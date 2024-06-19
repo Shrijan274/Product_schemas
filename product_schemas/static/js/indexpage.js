@@ -79,6 +79,7 @@ $(document).on('submit','#newpassword-form',function(e){
       url: '/resetpassword/' + $('#email').val(),
       type: 'POST',
       data: {
+        email: $('#email').val(),
         password: $('#password').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },

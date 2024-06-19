@@ -1,9 +1,14 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
+<title>Schema-Entries</title>
+<link rel="shortcut icon" href="#">
 <link href="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
+
 <style>
 td.editor-edit button,
 td.editor-delete button {
@@ -11,52 +16,127 @@ td.editor-delete button {
     border: none;
     color: inherit;
 }
+#schemas-link-button {
+    padding: 10px 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    background-color:  #f2f2f2;
+    color: #da0d0d;
+    border-radius: 5px;
+    top: 20px;
+    right: auto;
+    left: 20px;
+    cursor: pointer;
+}
+  
 </style>
+
 </head>
 <body>
 <h1>Product Schema Table</h1>
+<input type="text" id="productName" name="name"/>
+<a id="schemas-link-button" href="{% url 'product_schemas' %}" target="_blank">ADD</a><br><br><hr>
+
 <table id="TableProduct" class="display"  width="70%">
     <thead>
         <tr>
             <th id="SrNo" style="width:10%">Sr No</th>
             <th id="ProductName" style="width:40%">Product Name</th>
-            <th id="IsActive" style="width:15%">Is Active</th>               
-            <th id="Action" style="width:15%">Action</th>
+            <th id="IsActive" style="width:15%">Is Active</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
-    <tfoot>
-        <tr>
-            <th id="SrNo" style="width:10%">Sr No</th>
-            <th id="ProductName" style="width:40%">Product Name</th>
-            <th id="IsActive" style="width:15%">Is Active</th>
-            <th id="Action" style="width:15%">Action</th>
-        </tr>
-    </tfoot>
-</table>
+</table><hr>
+{%csrf_token%}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script>
-$('#TableProduct').DataTable({
-    columns: [
-        {data: 'SrNo'},
-        {data: 'ProductName'},
-        {data: 'IsActive'},
-        {data: null, className: 'dt-center editor-edit',
-            defaultContent: '<><i class="fa fa-pencil"/></>',
-            orderable: false
-        
-        }, 
-        {data: null, className: 'dt-center editor-delete',
-            defaultContent: '<><i class="fa fa-trash"/></>',
-            orderable: false
-        }
-    ],
-});
+$(document).ready(function() {
+    let table = $('#TableProduct').DataTable({
+        ajax: {
+            type: "GET",
+            datatype: 'json',
+            url: '../retrievedata',
+            dataSrc: "",
+        },
+        columns: [
+            {data: 'pk', title: 'Sr No',
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            {data: 'productName', title: 'Product Name'},
+            {data: 'is_active', title: 'Is Active'},
+            {
+                data: null,
+                className: 'dt-center editor-edit',
+                defaultContent: '<button class="edit-btn"><i class="fa fa-pencil"/></>',
+                orderable: false
+            },
+            {
+                data: null,
+                className: 'dt-center editor-delete',
+                defaultContent: '<button class="delete-btn"><i class="fa fa-trash"/></>',
+                orderable: false
+            }
+        ],
+        rowCallback: function (row, data) {
+            $(row).data('product-id', data.pk); 
+            $(row).data('product-name', data.productName); 
 
-//
+        }
+    });
+    $('#TableProduct').on('click', 'td.editor-delete button', function (e) {
+        let conf = confirm("Are you sure you wish to remove this product?");
+        if (conf) {
+            let productID = $(this).closest('tr').data('product-id');
+            console.log(productID);
+            let csrfToken = $('[name=csrfmiddlewaretoken]').val();
+            $.ajax({
+                type: "POST",
+                url: '/delete_product/',
+                headers: { 'X-CSRFToken': csrfToken },
+                data: { 'product_id': productID, },
+                success: function (res) {
+                    if (res.success) {
+                        $(this).closest('tr').remove();
+                    } else {
+                        console.error('Error deleting product');
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    console.error('Error deleting product:', err);
+                }
+            });
+        }
+    });
+
+    $('#TableProduct').on('click', 'td.editor-edit button', function (e){
+        e.preventDefault(); 
+        let productID = $(this).closest('tr').data('product-id');
+        let productname = $(this).closest('tr').data('product-name');
+        let conf= confirm("Are you sure you want to edit this product?");
+        if (conf){ 
+            console.log(productname);
+            //window.location =`{% url 'product_schemas' %}?id=${productID}&&name=${productname}`;            
+            //Get the product ID and name from the URL
+            let urlParams = new URLSearchParams(window.location.search);
+            let productId = urlParams.get('id');
+            let productName = urlParams.get('name');
+
+            
+            let schemaNameInput = document.getElementById('productName');
+            schemaNameInput.value = productname ;
+
+                        
+
+            
+        }    
+    }); 
+});
 </script>
 </body>
 </html>

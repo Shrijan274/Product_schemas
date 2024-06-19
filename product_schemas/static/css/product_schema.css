@@ -1,8 +1,4 @@
 #productTable {
-    display: none;
-}
-      
-#productTable {
     border-collapse: collapse; 
     border: 1px solid black; /* Add border to the table */
     display: none;  
@@ -83,3 +79,17 @@ a.logout-button {
   right: 10px;
   cursor: pointer;
 }
+
+#view-entries {
+    padding: 10px 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    background-color:  #f2f2f2;
+    color: #da0d0d;
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    right: auto;
+    left:10px;
+    cursor: pointer;
+  }
+  

@@ -143,6 +143,8 @@ function preview_button() {
   */
   };
 
+  
+
 document.getElementById('ConfigSaveButton').style.display = 'none';
 
 
@@ -206,3 +208,7 @@ $(document).ready(function() {
   });
 
 });
+function previewform(){
+  let jsonfromdata=preview_button();
+  $("#previewForm").jsonForm(jsonfromdata);
+}

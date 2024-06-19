@@ -1,12 +1,12 @@
 import json
 
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from htmlforms.models import User,Product
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.http import require_POST
 
 
 @login_required(login_url='/')
@@ -31,6 +31,7 @@ def forgotpwindex(request):
             return HttpResponse('Account with the email does not exist.')
     else:
         return render(request, 'indexforgotpw.html')
+    
 def resetpassword(request):
     template_name="newpassword.html"
     return render(request, template_name)
@@ -69,8 +70,11 @@ def logging(request):
     
 def newpassword(request, email):
     if request.method == 'POST':
+        email = request.POST.get('email')
         password = request.POST.get('password')
-        User.objects.filter(email=email).update(password=password)
+        u = User.objects.get(username=email)
+        u.set_password(password)
+        u.save()
         return HttpResponse('Password has been updated.')
     else:
         return render(request, 'newpassword.html', {'email': email})
@@ -93,8 +97,29 @@ def configsave(request):
         return JsonResponse({'message': 'Product saved successfully.'})
 
 def retrievedata(request):
-    data=list(Product.objects.values('productName','is_active'))
+    data=list(Product.objects.values('pk','productName','is_active'))
     return JsonResponse(data, safe=False)
 
 def CRUDview(request):
-    return render(request,'CRUD.html')
+    return render(request, 'CRUD.html')
+
+@require_POST
+def delete_product(request):
+    product_id = request.POST.get('product_id')
+    if product_id:
+        product = Product.objects.get(pk=product_id)
+        product.delete()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False}, status=400)
+    
+def update_product(request,product_id):
+    try:
+        product = Product.objects.get(pk=product_id)
+        data={
+            'schemaname':product.productName,
+             
+        }
+        return JsonResponse(data)
+    except Product.DoesNotExist:
+        return JsonResponse({'error':'Product not found'}),
