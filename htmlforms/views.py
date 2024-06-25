@@ -11,8 +11,16 @@ from django.views.decorators.http import require_POST
 
 @login_required(login_url='/')
 def schemapage(request):
+    product_id=request.GET.get('id')
+    if product_id:
+        product=Product.objects.get(pk=product_id)
+        schemas=json.dumps(product.schema)
+
+
+      
+    print('product_id:',product_id)
     template_name="product_schemas.html"
-    return render(request,template_name)
+    return render(request,template_name,locals())
 
 def loginindex(request):                                 #login page
     template_name="indexlogin.html"
@@ -113,13 +121,14 @@ def delete_product(request):
     else:
         return JsonResponse({'success': False}, status=400)
     
-def update_product(request,product_id):
-    try:
-        product = Product.objects.get(pk=product_id)
-        data={
-            'schemaname':product.productName,
-             
-        }
-        return JsonResponse(data)
-    except Product.DoesNotExist:
-        return JsonResponse({'error':'Product not found'}),
+def configupdate(request):
+    product_id=request.GET.get('id')
+    print('product_id:',product_id)
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    print(body)
+    productname=body.get('productname')
+    schema=body.get('schema')
+    isactive=body.get('isactive')
+    Product.objects.filter(id=product_id).update(productName=productname, schema=schema, is_active=isactive)
+    return JsonResponse({'message': 'Product updated successfully.'})

@@ -15,7 +15,7 @@ urlpatterns = [
     path('retrievedata/',views.retrievedata, name='retrievedata'),
     path('CRUDview/',views.CRUDview,name='CRUDview'),
     path('delete_product/', views.delete_product, name='delete_product'),
-    path('product_schemas/<int:productID>/',views.update_product,name='update_product'),
+    path('configupdate/',views.configupdate,name='configupdate'),
 ]
 
 

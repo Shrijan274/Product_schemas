@@ -58,7 +58,7 @@
     display: none;
     padding: 20px;
     background-color:  #f2f2f2;
-    margin-bottom: 5em;
+    margin-bottom: 2em;
 }
 
 #ConfigSaveButton{
@@ -66,6 +66,13 @@
     margin-top: 30px;
     margin-left: 41em;
     margin-bottom: 10em;
+}
+
+#ConfigUpdateButton{
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    margin-top: 30px;
+    margin-left: 41em;
+    margin-bottom: 30em;
 }
 
 a.logout-button {

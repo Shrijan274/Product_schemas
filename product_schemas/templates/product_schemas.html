@@ -16,7 +16,11 @@
     }
 </style>
 </head>
+
 <body>
+    <script>
+        let product_schema={{schemas|safe}};
+    </script>
 <header>
     <a id="logout-button" class="logout-button" href="{% url 'logout' %}">Log out</a>
     
@@ -27,7 +31,7 @@
 <form id="productForm" method="post" onsubmit="return false;">
     {% csrf_token %}
     <label for="productName">Schema Name :</label>
-    <input type="text" id="productName" name="productName">
+    <input type="text" id="productName" name="productName" value="{{product.productName}}">
     <br><br>
 <table id="productTable">
     <thead>
@@ -48,11 +52,16 @@
 <br>
 
 <button type="button" onclick="previewform()" id="PreviewButton">Preview</button>
-<button type="button" id="add-row-button">Add Row</button>
+<button type="button" id="add-row-button" >Add Row</button>
 <div id="previewForm" class="form-container"></div>
 <button type="submit" id="ConfigSaveButton" style="display: none;"> Config Save</button>
-
 </form>
+
+<form id="updateForm" method="post" onsubmit="return false">
+<button type="submit" id="ConfigUpdateButton" style="display: none;"> Config Update</button>
+</form>
+
+
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script  src="{% static 'js/underscore.js' %}"></script>
 <script  src="{% static 'js/jsv.js' %}"></script>

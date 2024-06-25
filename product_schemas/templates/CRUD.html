@@ -27,14 +27,17 @@ td.editor-delete button {
     left: 20px;
     cursor: pointer;
 }
+#p1{
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+}
   
 </style>
 
 </head>
 <body>
 <h1>Product Schema Table</h1>
-<input type="text" id="productName" name="name"/>
-<a id="schemas-link-button" href="{% url 'product_schemas' %}" target="_blank">ADD</a><br><br><hr>
+<!--<input type="text" id="productName" name="name"/>-->
+<a id="schemas-link-button" href="{% url 'product_schemas' %}" style="text-decoration: none;" target="_blank">Add new Schema</a><br><br><hr>
 
 <table id="TableProduct" class="display"  width="70%">
     <thead>
@@ -47,6 +50,7 @@ td.editor-delete button {
         </tr>
     </thead>
 </table><hr>
+<p id="p1" name="p1">The products are displayed in the order in which they were entered.</p>
 {%csrf_token%}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.js"></script>
@@ -89,6 +93,8 @@ $(document).ready(function() {
 
         }
     });
+
+    //delete schema
     $('#TableProduct').on('click', 'td.editor-delete button', function (e) {
         let conf = confirm("Are you sure you wish to remove this product?");
         if (conf) {
@@ -114,26 +120,15 @@ $(document).ready(function() {
         }
     });
 
+    //update schema
     $('#TableProduct').on('click', 'td.editor-edit button', function (e){
-        e.preventDefault(); 
         let productID = $(this).closest('tr').data('product-id');
         let productname = $(this).closest('tr').data('product-name');
         let conf= confirm("Are you sure you want to edit this product?");
-        if (conf){ 
-            console.log(productname);
-            //window.location =`{% url 'product_schemas' %}?id=${productID}&&name=${productname}`;            
-            //Get the product ID and name from the URL
-            let urlParams = new URLSearchParams(window.location.search);
-            let productId = urlParams.get('id');
-            let productName = urlParams.get('name');
-
-            
-            let schemaNameInput = document.getElementById('productName');
-            schemaNameInput.value = productname ;
-
-                        
-
-            
+        if (conf){
+            window.open(`/product_schemas/?id=${productID}`, '_blank');
+            console.log("id:",productID,"\nname:",productname); 
+            //let csrfToken = $('[name=csrfmiddlewaretoken]').val();           
         }    
     }); 
 });
