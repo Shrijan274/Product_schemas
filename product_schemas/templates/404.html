@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Data</title>
+<style>
+h1{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+h3{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+</style>
+</head>
+<body>
+    <h1>The Product you are trying to access does not exist.</h1><hr>
+    <h3>
+        <li>The product id does not associate with any product.</li>
+        <li>Create a new Schema from the following <a href="{% url 'product_schemas' %}">link</a>.</li>
+    </h3>
+</body>
+</html>

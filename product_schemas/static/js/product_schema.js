@@ -30,7 +30,7 @@ function FormValidation() {
 function generateTableRows(cloneRow = false) {
   let tableBody = document.querySelector('#productTable tbody');
   let selectOptions = ['string','number'];
-  let dataTypes = ['string', 'select', 'number', 'boolean', 'list', 'string1', 'string2'];
+  let dataTypes = ['string', 'select', 'integer', 'boolean', 'list', 'string1', 'string2'];
   let elementNames=['name','type','length','required','enum','htmlClass','description']
   let stringLimits = {
     'string1': 264,
@@ -122,18 +122,20 @@ function preview_button() {
     let cells = row.querySelectorAll("td");
     let fieldName = cells[0].querySelector("input").value;
     let type = cells[1].querySelector("select").value;
+    let lenght = cells[2].querySelector("input").value;
     let Values = cells[4].querySelector("input").value.split(",");
     let isRequired = cells[3].querySelector("input").checked;
     let description = cells[6].querySelector("input").value;
-    let cssclass = cells[5].querySelector("input").value;
+    let css = cells[5].querySelector("input").value;
     
     if (data.schema[fieldName] === undefined) {
       data.schema[fieldName] = {
-        'type': type,
         'title':fieldName,
+        'type': type,
+        'lenght':lenght,
         'description': description,
-        'htmlClass': cssclass
-      };
+        'htmlClass': css,
+      }
     }
     if (isRequired) {
       data.schema[fieldName].required = true;
@@ -151,7 +153,7 @@ function preview_button() {
     let jsonData = JSON.stringify(data, null, 2);
     console.log(jsonData);
   */
-  };
+};
 
 
 document.getElementById('ConfigSaveButton').style.display = 'none';
@@ -265,7 +267,7 @@ $(document).ready(function() {
     })
   }
 });
-}, 1000);
+}, 100);
 
 //updating the existing data
 $(document).on('submit','#updateForm',function(e){

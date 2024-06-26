@@ -67,9 +67,9 @@ $(document).on('submit','#login-form',function(e){
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
     }).done(function(r){
-      console.log(r);
-      alert(r.message);
-    });;
+      alert(r);
+      location.reload();
+    });
 });
 
 // using jQuery,AJAX to handle submission in forgotpw

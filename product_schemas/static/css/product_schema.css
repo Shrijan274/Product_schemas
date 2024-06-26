@@ -21,21 +21,24 @@
     float: right;
     margin-right: 100px; /* Adjust this value as needed */
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-top: 2em;
 }
   
 #header1 {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center;
 }
-    
+
+#name {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+}
+
 #productTable th {
     text-transform: none;
 }
   
 #productForm label {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-left: 35em;
 }
   
 #PreviewButton {

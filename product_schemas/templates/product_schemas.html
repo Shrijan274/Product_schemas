@@ -19,20 +19,20 @@
 
 <body>
     <script>
-        let product_schema={{schemas|safe}};
+        let product_schema={{schema|safe}};
     </script>
 <header>
     <a id="logout-button" class="logout-button" href="{% url 'logout' %}">Log out</a>
-    
-
     <h1 id="header1">ADD SCHEMAS</h1>
     <a id="view-entries" href="{% url 'CRUDview' %}" target="_blank">View Entries</a>
 </header>
-<form id="productForm" method="post" onsubmit="return false;">
+<form id="name">
     {% csrf_token %}
     <label for="productName">Schema Name :</label>
     <input type="text" id="productName" name="productName" value="{{product.productName}}">
     <br><br>
+</form>    
+<form id="productForm" method="post" onsubmit="return false;">
 <table id="productTable">
     <thead>
         <tr>

@@ -1,7 +1,7 @@
 import json
 
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect,get_object_or_404
+from django.http import HttpResponse, JsonResponse,Http404
+from django.shortcuts import render, redirect
 from htmlforms.models import User,Product
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -12,15 +12,15 @@ from django.views.decorators.http import require_POST
 @login_required(login_url='/')
 def schemapage(request):
     product_id=request.GET.get('id')
-    if product_id:
-        product=Product.objects.get(pk=product_id)
-        schemas=json.dumps(product.schema)
-
-
-      
-    print('product_id:',product_id)
-    template_name="product_schemas.html"
-    return render(request,template_name,locals())
+    try:
+        if product_id:
+            product=Product.objects.get(pk=product_id)
+            schema=json.dumps(product.schema)      
+        print('product_id:',product_id)
+        template_name="product_schemas.html"
+        return render(request,template_name,locals())
+    except Product.DoesNotExist:
+        raise Http404("Product does not exist")
 
 def loginindex(request):                                 #login page
     template_name="indexlogin.html"
