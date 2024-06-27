@@ -1,0 +1,83 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product List</title>
+<link rel="shortcut icon" href="#">
+<link href="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<style>
+#h{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+</style>
+
+</head>
+<body>
+<h1 id="h1">Product List</h1>
+
+<table id="productList" class="display" width="30%">
+    <thead>
+        <tr>
+            <th id="SrNo" style="width:10%">Sr No</th>
+            <th id="ProductName" style="width:15%">Product Name</th>
+            <th style="width:5%;"></th>
+        </tr>
+    </thead>
+
+</table>
+{%csrf_token%}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script>
+
+$(document).ready(function() {
+    let table = $('#productList').DataTable({
+        ajax:{
+            type:"GET",
+            datatype: 'json',
+            url: '../productnames',
+            dataSrc: "",
+        },
+        columns: [
+        {data: 'pk', title: 'Sr No',
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+        {data: 'productName', title: 'Product Name'},
+        {data: null,
+                className: 'dt-center editor-form',
+                defaultContent: '<button class="form-btn"><i class="fa fa-eye"/></>',
+                orderable: false
+            },
+        ],
+        rowCallback: function (row, data) {
+            $(row).data('product-id', data.pk); 
+            $(row).data('product-name', data.productName); 
+
+        }
+    });
+
+    //viewing schema
+    $('#productList').on('click', 'td.editor-form button', function (e) {
+        let conf = confirm("Are you sure you wish to view this product?");
+        let productID = $(this).closest('tr').data('product-id');
+        if (conf) {
+            window.open(`/product_schemas/?id=${productID}`, '_blank');
+            console.log("id:",productID);
+        }
+    });
+});
+</script>
+</body>
+</html>
