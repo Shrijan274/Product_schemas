@@ -26,22 +26,22 @@
     <h1 id="header1">ADD SCHEMAS</h1>
     <a id="view-entries" href="{% url 'CRUDview' %}" target="_blank">View Entries</a>
 </header>
-<form id="name">
+<form id="name" autocomplete="off" spellcheck="false">
     {% csrf_token %}
     <label for="productName">Schema Name :</label>
     <input type="text" id="productName" name="productName" value="{{product.productName}}">
     <br><br>
 </form>    
-<form id="productForm" method="post" onsubmit="return false;">
+<form autocomplete="off" spellcheck="false">
 <table id="productTable">
     <thead>
         <tr>
             <br>
             <th id="fieldname" style="width:10%">Field Name</th>
             <th id="type" style="width:10%">Data Type</th>
-            <th id="lenght" style="width:10%">Length</th>
-            <th id="required" style="width:5%"> is Required</th>
-            <th id="enum" style="width:25%">Look Up</th>
+            <th id="lenght" input type="number" style="width:10%">Length</th>
+            <th id="required" input type="checkbox" style="width:5%"> is Required</th>
+            <th id="enum"  style="width:25%">Look Up</th>
             <th id="css" style="width:20%">CSS</th>
             <th id="note" style="width:20%">Note</th>
         </tr>
@@ -54,6 +54,8 @@
 <button type="button" onclick="previewform()" id="PreviewButton">Preview</button>
 <button type="button" id="add-row-button" >Add Row</button>
 <div id="previewForm" class="form-container"></div>
+</form>
+<form id="productForm" method="post" onsubmit="return false;">
 <button type="submit" id="ConfigSaveButton" style="display: none;"> Config Save</button>
 </form>
 
