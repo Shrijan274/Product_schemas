@@ -20,7 +20,7 @@ function handleSubmit(event) {
 function FormValidation() {
   let productNameInput = document.getElementById('productName');
   productNameInput.addEventListener('keydown', function(event) {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' && event.target ===productNameInput ) {
           handleSubmit(event);
       }
   });
@@ -30,7 +30,7 @@ function FormValidation() {
 function generateTableRows(cloneRow = false) {
   let tableBody = document.querySelector('#productTable tbody');
   let selectOptions = ['string','number'];
-  let dataTypes = ['string', 'select', 'integer', 'boolean', 'list', 'string1', 'string2'];
+  let dataTypes = ['string', 'select', 'number', 'boolean', 'list', 'string1', 'string2'];
   let elementNames=['name','type','length','required','enum','htmlClass','description']
   let stringLimits = {
     'string1': 264,
@@ -207,6 +207,7 @@ $(document).ready(function() {
     }).done(function(r){
       console.log(r);
       alert(r.message);
+      location.reload();
     });
   });
 
