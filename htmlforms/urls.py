@@ -16,6 +16,10 @@ urlpatterns = [
     path('CRUDview/',views.CRUDview,name='CRUDview'),
     path('delete_product/', views.delete_product, name='delete_product'),
     path('configupdate/',views.configupdate,name='configupdate'),
+    path('schemalist/',views.schemalist,name='schemalist'),
+    path('productnames/',views.productnames,name='productnames'),
+    path('addproduct/',views.addproduct,name='addproduct'),
+    path('viewlist/',views.viewlist,name='viewlist'),
 ]
 
 
