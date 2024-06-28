@@ -1,11 +1,11 @@
-
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product List</title>
+<title>Schema List</title>
 <link rel="shortcut icon" href="#">
 <link href="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/b-colvis-3.0.2/datatables.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -20,14 +20,15 @@
 
 </head>
 <body>
-<h1 id="h1">Product List</h1>
+<h1 id="h1">Schema List</h1>
 
-<table id="productList" class="display" width="30%">
+<table id="schemaList" class="display" width="55%">
     <thead>
         <tr>
             <th id="SrNo" style="width:10%">Sr No</th>
             <th id="ProductName" style="width:15%">Product Name</th>
-            <th style="width:5%;"></th>
+            <th id="AddProduct" style="width:15%;">Add Product</th>
+            <th id="ViewList" style="width: 15%;">View List</th>
         </tr>
     </thead>
 
@@ -41,7 +42,7 @@
 <script>
 
 $(document).ready(function() {
-    let table = $('#productList').DataTable({
+    let table = $('#schemaList').DataTable({
         ajax:{
             type:"GET",
             datatype: 'json',
@@ -54,12 +55,18 @@ $(document).ready(function() {
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
-        {data: 'productName', title: 'Product Name'},
+        {data: 'productName', title: 'Schema Name'},
         {data: null,
-                className: 'dt-center editor-form',
-                defaultContent: '<button class="form-btn"><i class="fa fa-eye"/></>',
+                className: 'dt-center editor-add',
+                defaultContent: '<button class="add-btn"><i class="fa fa-plus"/></>',
                 orderable: false
             },
+        {data: null,
+            className: 'dt-center editor-list',
+            defaultContent: '<button class="list-btn"><i class="fa fa-eye"/></>',
+            orderable: false
+        },
+        
         ],
         rowCallback: function (row, data) {
             $(row).data('product-id', data.pk); 
@@ -68,15 +75,18 @@ $(document).ready(function() {
         }
     });
 
-    //viewing schema
-    $('#productList').on('click', 'td.editor-form button', function (e) {
-        let conf = confirm("Are you sure you wish to view this product?");
+    //adding new product
+    $('#schemaList').on('click', 'td.editor-add button', function (e) {
         let productID = $(this).closest('tr').data('product-id');
-        if (conf) {
-            window.open(`/product_schemas/?id=${productID}`, '_blank');
-            console.log("id:",productID);
-        }
+        window.open(`/addproduct/?id=${productID}`, '_blank');
+        
     });
+
+    //view product list
+    $('#schemaList').on('click', 'td.editor-list button', function (e) {
+       window.open(`/viewlist/`,'_blank');
+    });
+
 });
 </script>
 </body>
