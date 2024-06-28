@@ -11,11 +11,14 @@ from django.views.decorators.http import require_POST
 
 @login_required(login_url='/')
 def schemapage(request):
+    source=request.GET.get('source','')
     product_id=request.GET.get('id')
     try:
         if product_id:
             product=Product.objects.get(pk=product_id)
-            schema=json.dumps(product.schema)      
+            schema=json.dumps(product.schema)
+            if source == 'addproduct':
+                return JsonResponse({'schema':schema})
         print('product_id:',product_id)
         template_name="product_schemas.html"
         return render(request,template_name,locals())
@@ -132,3 +135,19 @@ def configupdate(request):
     isactive=body.get('isactive')
     Product.objects.filter(id=product_id).update(productName=productname, schema=schema, is_active=isactive)
     return JsonResponse({'message': 'Product updated successfully.'})
+
+def schemalist(request):
+    template_name="productlist.html"
+    return render(request,template_name)
+
+def productnames(request):
+    data=list(Product.objects.values('pk','productName'))
+    return JsonResponse(data, safe=False)
+
+def addproduct(request):
+    template_name="addproduct.html"
+    return render(request,template_name)
+
+def viewlist(request):
+    template_name="viewlist.html"
+    return render(request,template_name)
