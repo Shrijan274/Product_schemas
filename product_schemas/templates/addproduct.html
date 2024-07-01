@@ -23,11 +23,21 @@ h1{
 }
 #submit{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-left: 42em;
-    margin-bottom: 10em;
+    margin-bottom: 20px;
 }
-
+#Form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-left: 37%;
+}
 
 </style>
 </head>
@@ -41,7 +51,7 @@ h1{
 <p id="p1">
     Select properties for your product
 </p>
-<form>
+<form id="Form">
     <div id="previewForm" class="form-container"></div>
 </form>
 <br><br><button id="submit">Save Product</button>
@@ -61,11 +71,10 @@ $(document).ready(function() {
         data:{},
         success: function(response) {
             let jsondata = response.schema
-            console.log(jsondata)
-            $('#previewForm').jsonForm();
-            
-             
-            
+            console.log(JSON.parse(jsondata));
+            $('#previewForm').jsonForm(
+                JSON.parse(jsondata)
+            );            
         },
         error: function(xhr, status, error) {
         console.error('Error:', error);
