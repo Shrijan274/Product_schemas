@@ -137,7 +137,7 @@ def configupdate(request):
     return JsonResponse({'message': 'Product updated successfully.'})
 
 def schemalist(request):
-    template_name="productlist.html"
+    template_name="schemalist.html"
     return render(request,template_name)
 
 def productnames(request):

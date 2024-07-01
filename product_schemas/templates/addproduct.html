@@ -8,83 +8,36 @@
 <title>Add Product</title>
 <link rel="shortcut icon" href="#">
 <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
-<style>
-h1{
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-#inputfields{
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-#p1{
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-#submit{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-top: 10px;
-    margin-left: 42em;
-    margin-bottom: 20px;
-}
-#Form {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    margin-left: 37%;
-}
-
-</style>
+<link rel="stylesheet" href="{% static 'css/addproduct.css' %}">>
 </head>
 <body>
 <h1>Add your Product</h1><br>
-<form id="inputfields">
-<label for="product">Enter Product name:</label>
-<input type="text" id="product" name="product"><br><br>
-<label for="brandName">Enter your brand name:</label>
-<input type="text" id="brandName" name="brandName"><br><br><br></form>
+<form id="inputfields" autocomplete="off" spellcheck="false">
+<label for="item">Enter Product name:</label>
+<input type="text" id="item" name="item"><br><br>
+<label for="brand">Enter your brand name:</label>
+<input type="text" id="brand" name="brand"><br><br>
+<label for="price">Enter Product Price:</label>
+<input type="number" id="price" name="price"><br><br>
+<label for="description">Enter Product description:</label><br>
+<textarea id="description" name="description"></textarea>
+<br><br><br></form>
 <p id="p1">
     Select properties for your product
 </p>
 <form id="Form">
     <div id="previewForm" class="form-container"></div>
 </form>
-<br><br><button id="submit">Save Product</button>
+<br><br>
+<form id="save" method="post">
+    {% csrf_token %}
+    <button id="submit">Save Product</button>
+</form>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script  src="{% static 'js/underscore.js' %}"></script>
 <script  src="{% static 'js/jsv.js' %}"></script>
 <script  src="{% static 'js/jsonform.js' %}"></script>
-<script>
-
-$(document).ready(function() {
-  let urlParams = new URLSearchParams(window.location.search);
-  let id = urlParams.get('id');
-  if (id) {
-    $.ajax({
-        type: "GET",
-        url:`/product_schemas/?id=${id}&source=addproduct`,
-        data:{},
-        success: function(response) {
-            let jsondata = response.schema
-            console.log(JSON.parse(jsondata));
-            $('#previewForm').jsonForm(
-                JSON.parse(jsondata)
-            );            
-        },
-        error: function(xhr, status, error) {
-        console.error('Error:', error);
-        }
-
-    });
-    }
-});
-
-</script>
+<script  src="{% static 'js/addproduct.js' %}"></script>
 </body>
 </html>
 

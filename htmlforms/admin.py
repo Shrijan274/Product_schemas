@@ -1,7 +1,8 @@
 from django.contrib import admin
 from htmlforms.models import Product
-from htmlforms.models import User
+from htmlforms.models import Item
 
 
 admin.site.register(Product)
-admin.site.register(User)
+admin.site.register(Item)
+
