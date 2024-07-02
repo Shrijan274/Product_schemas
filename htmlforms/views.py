@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse, JsonResponse,Http404
 from django.shortcuts import render, redirect
-from htmlforms.models import User,Product
+from htmlforms.models import Product,Item
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -73,9 +73,11 @@ def logging(request):
             login(request, user)
             return redirect('/product_schemas/')
         if not User.objects.filter(email=email).exists():
-            return JsonResponse({'message': 'Account does not exist.'})
+            success='Account with {' +email+ '} email does not exist.'
+            return HttpResponse(success)
         else:
-            return JsonResponse({'message': 'Invalid login credentials.'})
+            success='Invalid login credentials.'
+            return HttpResponse(success)
     else:
         return render(request,'indexlogin.html')
     
@@ -145,9 +147,27 @@ def productnames(request):
     return JsonResponse(data, safe=False)
 
 def addproduct(request):
+    if request.method == 'POST':
+        # body_unicode = request.body.decode('utf-8')
+        # print(body_unicode)
+        body = request.POST.copy()
+        body.pop('csrfmiddlewaretoken',None)
+        print(body)
+        product=request.GET.get("id")
+        schema=body.get('schema')
+        isactive=body.get('isactive')
+
+        item=Item(product_id=product, data=body, user=request.user)
+        item.save()
+        success='Item created successfully.'
+        return HttpResponse(success)
     template_name="addproduct.html"
     return render(request,template_name)
 
 def viewlist(request):
     template_name="viewlist.html"
     return render(request,template_name)
+
+def retrieveitems(request):
+    data=list(Item.objects.values('pk','product__productName','data'))
+    return JsonResponse(data, safe=False)

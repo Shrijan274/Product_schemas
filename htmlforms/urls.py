@@ -20,6 +20,7 @@ urlpatterns = [
     path('productnames/',views.productnames,name='productnames'),
     path('addproduct/',views.addproduct,name='addproduct'),
     path('viewlist/',views.viewlist,name='viewlist'),
+    path('retrieveitems/',views.retrieveitems,name='retrievetems'),
 ]
 
 

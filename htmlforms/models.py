@@ -1,17 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
-class User(models.Model):
-    email = models.EmailField(max_length=64)
-    firstname = models.CharField(max_length=32)
-    lastname = models.CharField(max_length=32)
-    password = models.CharField(max_length=128) 
-
-    
-    def __str__(self):
-        return f"{self.firstname} {self.lastname} ({self.email}) - Password: {self.password}"
-    
-    
 class Product(models.Model):
     productName= models.CharField(max_length=32)
     schema= models.JSONField(default=dict)
@@ -23,14 +13,9 @@ class Product(models.Model):
         return self.productName
 
 class Item(models.Model):
-    item=models.CharField(max_length=32)
-    brand=models.CharField(max_length=32)
-    price=models.DecimalField(max_digits=8, decimal_places=2)
-    description=models.TextField()
-    product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    formschema=models.JSONField(default=dict)
+    product=models.ForeignKey(Product, on_delete=models.SET_NULL,null=True,blank=True)
+    data=models.JSONField(default=dict)
     is_available=models.BooleanField(default=True,null=True,blank=True)
+    user=models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True)
 
-    def __str__(self):
-        return f"Brand:{self.brand} Item name:{self.item}"
 

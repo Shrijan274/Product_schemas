@@ -66,10 +66,11 @@ $(document).on('submit','#login-form',function(e){
         password: $('#password').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
-    }).done(function(r){
-      alert(r);
-      location.reload();
-    });
+      success:function(data){
+        alert(data);
+        location.reload();
+    }
+    })
 });
 
 // using jQuery,AJAX to handle submission in forgotpw

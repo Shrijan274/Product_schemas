@@ -78,7 +78,7 @@ $(document).ready(function() {
     //adding new product
     $('#schemaList').on('click', 'td.editor-add button', function (e) {
         let productID = $(this).closest('tr').data('product-id');
-        window.open(`/addproduct/?id=${productID}`, '_blank');
+        window.open(`/addproduct/?id=${productID}`);
         
     });
 
