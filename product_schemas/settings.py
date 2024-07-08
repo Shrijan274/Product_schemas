@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l-h&a!inqwg1$c_ts739^)2z#^ei1_(5gnlhjyjm+#8bctr!@h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1","localhost"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'htmlforms.apps.HtmlformsConfig',
     'table',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'product_schemas.urls'
@@ -86,7 +88,7 @@ DATABASES = {
 "default": {
 "ENGINE": "django.db.backends.postgresql_psycopg2",
 "NAME": "test123",
-"USER" : "postgres",
+"USER" : "shrijan",
 "PASSWORD" : "shrijan123",
 "HOST" : "localhost",
 "PORT" : "5432",
@@ -134,3 +136,19 @@ STATIC_ROOT = BASE_DIR / "product_schemas/static_root"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#CACHE_TTL = 60 * 10
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+] 
