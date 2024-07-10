@@ -1,5 +1,6 @@
 import json
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse, JsonResponse,Http404
 from django.shortcuts import render, redirect
 from htmlforms.models import Product,Item
@@ -10,7 +11,11 @@ from django.views.decorators.http import require_POST
 from django.db import models
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
+from django.db import models
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
+@cache_page(60 * 15)
 @cache_page(60 * 15)
 @login_required(login_url='/')
 def schemapage(request):
@@ -28,6 +33,7 @@ def schemapage(request):
     except Product.DoesNotExist:
         raise Http404("Product does not exist")
 
+@csrf_protect
 #@csrf_protect
 def loginindex(request):                                 #login page
     template_name="indexlogin.html"
@@ -117,6 +123,7 @@ def retrievedata(request):
     data=list(Product.objects.values('pk','productName','is_active'))
     return JsonResponse(data, safe=False)
 
+#@cache_page(60 * 15)
 def CRUDview(request):
     return render(request, 'CRUD.html')
 
