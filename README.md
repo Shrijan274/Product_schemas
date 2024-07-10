@@ -1,6 +1,15 @@
 """
     Introduction-
 
+    Prerequisites-
+    
+    Django
+    datatables
+    redis
+    drf
+
+    connect to redis server before running the application.
+
     Product Schema Generator-
 
     This application allows user to create,read,update and delete the properties of products.
