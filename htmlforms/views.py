@@ -182,7 +182,3 @@ def viewlist(request):
 def retrieveitems(request):
     data=list(Item.objects.values('pk','product__productName','data'))
     return JsonResponse(data, safe=False)
-
-def productproperties(request):
-    template_name="productproperties.html"
-    return render(request,template_name)

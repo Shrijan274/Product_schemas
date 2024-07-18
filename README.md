@@ -8,7 +8,12 @@
     redis
     drf
 
-    connect to redis server before running the application.
+    connect to redis server before running the application,commands:
+
+        redis-server (starts the redis server)
+        redis-cli (connects to the redis server)
+        sudo lsof -i :6379 (gives a list of processes running)
+
 
     Product Schema Generator-
 
