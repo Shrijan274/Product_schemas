@@ -182,3 +182,7 @@ def viewlist(request):
 def retrieveitems(request):
     data=list(Item.objects.values('pk','product__productName','data'))
     return JsonResponse(data, safe=False)
+
+def goldenlayout(request):
+    template_name="goldenlayout.html"
+    return render(request,template_name)

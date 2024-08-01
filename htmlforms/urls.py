@@ -21,6 +21,7 @@ urlpatterns = [
     path('addproduct/',views.addproduct,name='addproduct'),
     path('viewlist/',views.viewlist,name='viewlist'),
     path('retrieveitems/',views.retrieveitems,name='retrievetems'),
+    path('goldenlayout/',views.goldenlayout,name='goldenlayout'),
 ]
 
 

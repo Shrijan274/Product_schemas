@@ -12,7 +12,7 @@
 
         redis-server (starts the redis server)
         redis-cli (connects to the redis server)
-        sudo lsof -i :6379 (gives a list of processes running)
+        sudo lsof -i :6379 (gives a list of processes runningredisredis )
 
 
     Product Schema Generator-
